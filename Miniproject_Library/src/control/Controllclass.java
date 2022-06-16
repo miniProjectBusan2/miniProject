@@ -27,7 +27,7 @@ public class Controllclass {
 	}
 	
 	public void AllPerson() { // 도헌이     select * from person;
-		System.out.println("========모든 사람 검색==========");
+		System.out.println("========모든 사람 검색===========");
 	}
 	
 	public void BorrowBooks() { // 영훈   select * from book where borrow_flag = 1;
