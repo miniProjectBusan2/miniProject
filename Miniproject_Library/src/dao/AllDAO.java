@@ -12,7 +12,7 @@ import model.PersonDTO;
 import model.RentalinfoDTO;
 import util.DBUtil;
 
-public class DaoClass {
+public class AllDAO {
 	public static ArrayList<BookDTO> getAllBooks() throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -35,7 +35,7 @@ public class DaoClass {
 	}
 	
 	// 도서 현황 전체 출력
-	public static ArrayList<RentalinfoDTO> getrentalinfo() throws SQLException{
+	public static ArrayList<RentalinfoDTO> getrentalinfo() throws SQLException, NotExistException{
 	      
 	      Connection con = null;
 	      PreparedStatement pstmt = null;
@@ -84,7 +84,7 @@ public class DaoClass {
 	
 	// 도서 반납
 	
-	public static boolean ReturnBook(RentalinfoDTO dto) throws SQLException, NotExistException {
+	public static boolean returnBook(RentalinfoDTO dto) throws SQLException, NotExistException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "delete from rental_info where rental_info_id = ?";
@@ -171,7 +171,7 @@ public class DaoClass {
 		}
 	}
 	////////////////////////////플래그 변경 함수////////////////////////////
-	public static boolean ChangFlag(int bookId)throws SQLException {
+	public static boolean changeFlag(int bookId)throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -190,7 +190,7 @@ public class DaoClass {
 	}
 
 	/////////////////////////////rental_info 빌려주기////////////////////
-	public static boolean BorrowBooks(int userId,int bookId) throws SQLException {
+	public static boolean borrowBooks(int userId,int bookId) throws SQLException, NotExistException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -231,7 +231,7 @@ public static ArrayList<PersonDTO> getAllPerson() throws SQLException{
 		return list;
 	}
 ////////////////////////////////////////////////////////////////////
-public static ArrayList<BookDTO> SearchBooks(String str)throws SQLException {
+public static ArrayList<BookDTO> searchBooks(String str)throws SQLException, NotExistException {
 	Connection con = null;
 	PreparedStatement pstmt = null;
 	ResultSet rset = null;

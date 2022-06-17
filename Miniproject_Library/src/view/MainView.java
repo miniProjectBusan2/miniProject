@@ -1,6 +1,6 @@
 package view;
 
-import control.Controllclass;
+import control.Controller;
 import java.util.Scanner;
 
 
@@ -10,7 +10,7 @@ public class MainView {
 // borrow_flag는 0과 1인데 0이면 불가 1이면 가능
 // rental_info의 id_number , book_number 외래키다
 	public static void main(String[] args) {
-		Controllclass controllclass = Controllclass.getInstance();
+		Controller controllclass = Controller.getInstance();
 
 		Scanner scan = new Scanner(System.in);
 		int num=0;
@@ -21,32 +21,35 @@ public class MainView {
 			switch(num) {
 			case 1: 
 //				모든 책 검색
-				controllclass.ShowAllBook();
+				controllclass.showAllBook();
 				break;
 			case 2: 
 //				// 모든 사람 검색
-				controllclass.AllPerson();
+				controllclass.allPerson();
 				break;
 			case 3: 
 //				// 빌려 갈 수 있는 책 검색		
-				controllclass.BorrowBooks();
+				controllclass.borrowBooks();
 				break;
 			case 4:
 				// 책이름으로 책검색
-				controllclass.SearchBooks();
+				controllclass.searchBooks();
 				break;
 			case 5: 
 				// 대여 현황 전체 출력
-				controllclass.BorrowPerson();
+				controllclass.borrowPerson();
 				break;
 			case 6: 
 				//책 id와 유저 id로 책 빌리기 
-				controllclass.BorrowUseID();
+				controllclass.borrowUseID();
 				break;
 			case 7: 
 				// 대여 현황 코드로 책 반납
-				controllclass.ReturnBook();
+				controllclass.returnBook();
 				break;
+			case 8:
+				System.out.println("프로그램 종료");
+				return;
 			default : break;
 			}
 		}
