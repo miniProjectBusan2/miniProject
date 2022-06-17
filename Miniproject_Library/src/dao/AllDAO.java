@@ -186,7 +186,7 @@ public class AllDAO {
 		} finally {
 			DBUtil.close(rset, pstmt, con);
 		}
-		return true;
+		return false;
 	}
 
 	/////////////////////////////rental_info 빌려주기////////////////////

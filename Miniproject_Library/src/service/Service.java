@@ -94,7 +94,7 @@ public class Service {
 			AllDAO.changeFlag(bookId);
 			return true;
 		}else {
-			throw new NotExistException("정보가 맞지 않습니다 회원 코드 및 도서 코드를 확인해 주세요.");
+			throw new NotExistException("정보가 맞지 않거나 도서 수량이 없습니다.");
 		}
 	}
 
