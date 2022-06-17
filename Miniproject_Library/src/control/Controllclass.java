@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.BookDTO;
+import model.PersonDTO;
+import model.RentalinfoDTO;
 import service.Service;
 import util.DBUtil;
 
@@ -28,6 +30,14 @@ public class Controllclass {
 	
 	public void AllPerson() { // 도헌이     select * from person;
 		System.out.println("========모든 사람 검색==========");
+		try {
+			for(PersonDTO person:service.getAllPerson()) {
+				System.out.println(person);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void BorrowBooks() { // 영훈   select * from book where borrow_flag = 1;
@@ -40,6 +50,17 @@ public class Controllclass {
 	
 	public void BorrowPerson() { // 도헌이  select * from rental_info;
 	System.out.println("========대여 현황 전체 출력==========");
+	try {
+		
+		for(RentalinfoDTO rentalinfo : service.getrentalinfo())
+			
+			System.out.println(rentalinfo);
+			
+	}catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
 	}
 	
 	public void BorrowUseID() { // 용주 - borrow_flag가 1이면 그걸 insert( )하고, borrow_flag 0 으로 바꾼다.
