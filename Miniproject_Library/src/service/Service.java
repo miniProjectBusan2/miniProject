@@ -1,9 +1,13 @@
 package service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Exception.NotExistException;
 import dao.DaoClass;
 import model.BookDTO;
 
@@ -20,14 +24,22 @@ public class Service {
 	}
 	
 	
-	public ArrayList<BookDTO> getAllBooks() throws SQLException  {
+	public static ArrayList<BookDTO> getAllBooks() throws SQLException  {
 		return DaoClass.getAllBooks();
 	}
 	
 
-	public ArrayList<BookDTO> borrowBooks() throws SQLException  {
-		return DaoClass.borrowBooks();
+	public ArrayList<BookDTO> borrowBooks() throws NotExistException, SQLException {
+		ArrayList<BookDTO> bookDTO = DaoClass.borrowBooks();
+		if(bookDTO.size() != 0) {
+			return bookDTO;			
+		}else {
+			throw new NotExistException("빌릴 수 있는 책이 없습니다.");
+		}
 	}
+	
+	
+	
 	
 	public int getborrow(RentalinfoDTO dto) throws SQLException {
 		return DaoClass.getborrow(dto);
@@ -50,11 +62,14 @@ public class Service {
         
 	public static void ReturnBook(RentalinfoDTO dto) throws SQLException {
 		int result = (DaoClass.getborrow(dto));
-		if(DaoClass.ReturnBook(dto)) {
-			if(DaoClass.updateBook(result)) {
-				System.out.println("반납 성공");
-				return;
+		try {
+			if(DaoClass.ReturnBook(dto)) {
+				DaoClass.updateBook(result);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NotExistException e) {
+			e.printStackTrace();
 		}
 		System.out.println("반납 실패");
 	}

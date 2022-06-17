@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Exception.NotExistException;
 import model.BookDTO;
 import model.PersonDTO;
 import model.RentalinfoDTO;
@@ -60,7 +61,7 @@ public class DaoClass {
 	
 	// 빌릴 수 있는 책만 검색
 	
-	public static ArrayList<BookDTO> borrowBooks() throws SQLException {
+	public static ArrayList<BookDTO> borrowBooks() throws NotExistException, SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -83,7 +84,7 @@ public class DaoClass {
 	
 	// 도서 반납
 	
-	public static boolean ReturnBook(RentalinfoDTO dto) throws SQLException {
+	public static boolean ReturnBook(RentalinfoDTO dto) throws SQLException, NotExistException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "delete from rental_info where rental_info_id = ?";

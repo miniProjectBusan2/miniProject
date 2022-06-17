@@ -11,6 +11,7 @@ public class MainView {
 // rental_info의 id_number , book_number 외래키다
 	public static void main(String[] args) {
 		Controllclass controllclass = Controllclass.getInstance();
+
 		Scanner scan = new Scanner(System.in);
 		int num=0;
 		while(true) {
@@ -49,7 +50,6 @@ public class MainView {
 			default : break;
 			}
 		}
-
 	}
 	
 

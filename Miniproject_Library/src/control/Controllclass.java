@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Exception.NotExistException;
 import model.BookDTO;
 
 import model.PersonDTO;
@@ -21,7 +22,9 @@ private Controllclass() {};
 public static Controllclass getInstance() {
 	return instance;
 }
+
 	Service service = Service.getInstance();
+//	Service service = new Service();
 
 	public void ShowAllBook() {
 		System.out.println("========모든 책 검색==========");
@@ -49,14 +52,15 @@ public static Controllclass getInstance() {
 	
 	public void BorrowBooks() { // 영훈   select * from book where borrow_flag = 1;
 		System.out.println("========빌려 갈 수 있는 책 검색==========");
-		try {
-			for(BookDTO book : service.borrowBooks()) {
-				System.out.println(book);
+			try {
+					for(BookDTO book : service.borrowBooks()) {
+						System.out.println(book);
+					}
+			} catch ( NotExistException e) {
+				System.out.println(e.getMessage());
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public void SearchBooks() { // 용주  select * from book where book_name = '도헌이책';
@@ -69,6 +73,7 @@ public static Controllclass getInstance() {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
 	}
 	
@@ -88,6 +93,7 @@ public static Controllclass getInstance() {
 	
 	}
 	
+
 	public void BorrowUseID() { 
 		int bookId;
 		int userId;
@@ -117,13 +123,15 @@ public static Controllclass getInstance() {
 		try {
 			
 			service.ReturnBook(new RentalinfoDTO(rentalcode));
-//			System.out.println(rental);
-//			service.updateBook(rental);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	System.out.println("========대여 현황 코드로 책 반납==========");
+	
+	// 블랙리스트 등록, ... 
+	
+	
 	}
 	
 	public static void showMenue() {
