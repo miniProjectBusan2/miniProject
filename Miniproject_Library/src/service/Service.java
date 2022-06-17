@@ -1,5 +1,8 @@
 package service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ public class Service {
 	
 	public int getborrow(RentalinfoDTO dto) throws SQLException {
 		return DaoClass.getborrow(dto);
+	}
 
 	public static ArrayList<PersonDTO> getAllPerson() throws SQLException{
 		
