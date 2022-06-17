@@ -1,14 +1,15 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import control.Controllclass;
+import dao.DaoClass;
 import model.BookDTO;
+
+import model.PersonDTO;
+import model.RentalinfoDTO;
 import util.DBUtil;
+
 
 public class Service {
 	public static Service instance=new Service();
@@ -17,20 +18,33 @@ public class Service {
 		return instance;
 	}
 	
-	public static ArrayList<BookDTO> getAllBooks() throws SQLException {
+	
+	public ArrayList<BookDTO> getAllBooks() throws SQLException  {
+		return DaoClass.getAllBooks();
+	}
+	
+
+	public ArrayList<BookDTO> borrowBooks() throws SQLException  {
+		return DaoClass.borrowBooks();
+	}
+	
+	public int getborrow(RentalinfoDTO dto) throws SQLException {
+		return DaoClass.getborrow(dto);
+
+	public static ArrayList<PersonDTO> getAllPerson() throws SQLException{
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<BookDTO> list = null;
+		ArrayList<PersonDTO> list = null;
 		try {
 			con = DBUtil.getConnection();
-			pstmt = con.prepareStatement("select * from book");
+			pstmt = con.prepareStatement("select * from person");
 			rset = pstmt.executeQuery();
 
-			list = new ArrayList<BookDTO>();
+			list = new ArrayList<PersonDTO>();
 			while (rset.next()) {
-				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
-						rset.getString(5)));
+				list.add(new PersonDTO(rset.getInt(1), rset.getString(2), rset.getString(3)));
 			}
 		} finally {
 			DBUtil.close(rset, pstmt, con);
@@ -38,6 +52,7 @@ public class Service {
 		return list;
 	}
 	
+
 	public static ArrayList<BookDTO> SearchBooks(String str)throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -53,15 +68,46 @@ public class Service {
 			while (rset.next()) {
 				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
 						rset.getString(5)));
+        }
+		} finally {
+			DBUtil.close(rset, pstmt, con);
+		}
+  	return list;
+}
+///////////////////////////////////////////
+	public static ArrayList<RentalinfoDTO> getrentalinfo() throws SQLException{
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<RentalinfoDTO> list = null;
+		try {
+			con = DBUtil.getConnection();
+			pstmt = con.prepareStatement("select * from rental_info");
+			rset = pstmt.executeQuery();
+
+			list = new ArrayList<RentalinfoDTO>();
+			while (rset.next()) {
+				list.add(new RentalinfoDTO(rset.getInt(1),rset.getString(2), rset.getString(3),rset.getInt(4),rset.getInt(5)));
 			}
 		} finally {
 			DBUtil.close(rset, pstmt, con);
 		}
-		
 		return list;
 	}
 	
+        
+        
+        
+	public static void ReturnBook(RentalinfoDTO dto) throws SQLException {
+		int result = (DaoClass.getborrow(dto));
+		if(DaoClass.ReturnBook(dto)) {
+			DaoClass.updateBook(result);
+		}
+	}
 	
+
 	// 책 id와 유저 id로 책 빌리기 
 	public static boolean BorrowUseID(int userId,int bookId) throws SQLException{
 		//-- book_number를 받는다 -> rental_info를 생성하는데(여기에 book_number와 id_number를 넣어준다)
@@ -138,5 +184,10 @@ public class Service {
 		}
 	}
 	//////////////////////////////////////////////////////////////////
+
+	public static boolean updateBook(int rentalcode) throws SQLException {
+		return DaoClass.updateBook(rentalcode);
+	}
+
 
 }

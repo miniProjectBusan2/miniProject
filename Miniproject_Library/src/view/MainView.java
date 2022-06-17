@@ -1,6 +1,7 @@
 package view;
 
 import control.Controllclass;
+import java.util.Scanner;
 
 
 public class MainView {
@@ -27,8 +28,14 @@ public class MainView {
 
 		//책 id와 유저 id로 책 빌리기 
 		controllclass.BorrowUseID();
-		
+			
 		// 대여 현황 코드로 책 반납
-//		controllclass.ReturnBook();
+		controllclass.ReturnBook(8);
+		//1. rental_info_id를 통해 book_number를 먼저 받아오는 함수
+		//2. book_number를 통해 borrow_flag를 1로 update한다.
+		//3. rental_info_id를 통해 데이터 삭제
+		//rental_info_id를 통해 삭제하고, book_number를 받아온다
+		//그 받아온 book_number를 통해 borrow_flag를 1로 update한다.
+
 	}
 }

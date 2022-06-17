@@ -6,6 +6,20 @@ public class PersonDTO {
 	private String user_name;
 	
 	
+	@Override
+	public String toString() {
+		return "PersonDTO [id_number=" + id_number + ", phone_num=" + phone_num + ", user_name=" + user_name + "]";
+	}
+	public PersonDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public PersonDTO(int id_number, String phone_num, String user_name) {
+		super();
+		this.id_number = id_number;
+		this.phone_num = phone_num;
+		this.user_name = user_name;
+	}
 	public int getId_number() {
 		return id_number;
 	}

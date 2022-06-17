@@ -7,16 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.BookDTO;
+
+import model.PersonDTO;
+
+import model.RentalinfoDTO;
 import service.Service;
 import util.DBUtil;
 
 public class Controllclass {
+
 private static Controllclass instance = new Controllclass();
 private Controllclass() {};
 public static Controllclass getInstance() {
 	return instance;
 }
-	
 	Service service = Service.getInstance();
 
 	public void ShowAllBook() {
@@ -31,11 +35,28 @@ public static Controllclass getInstance() {
 	}
 	
 	public void AllPerson() { // 도헌이     select * from person;
-		System.out.println("========모든 사람 검색===========");
+		System.out.println("========모든 사람 검색==========");
+
+		try {
+			for(PersonDTO person:service.getAllPerson()) {
+				System.out.println(person);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void BorrowBooks() { // 영훈   select * from book where borrow_flag = 1;
 		System.out.println("========빌려 갈 수 있는 책 검색==========");
+		try {
+			for(BookDTO book : service.borrowBooks()) {
+				System.out.println(book);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void SearchBooks() { // 용주  select * from book where book_name = '도헌이책';
@@ -49,8 +70,20 @@ public static Controllclass getInstance() {
 		}
 	}
 	
+
 	public void BorrowPerson() { // 도헌이  select * from rental_info;
 	System.out.println("========대여 현황 전체 출력==========");
+	try {
+		
+		for(RentalinfoDTO rentalinfo : service.getrentalinfo())
+			
+			System.out.println(rentalinfo);
+			
+	}catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
 	}
 	
 	public void BorrowUseID() { 
@@ -68,9 +101,18 @@ public static Controllclass getInstance() {
 		} catch (SQLException e) {e.printStackTrace();}
 	}
 	
-	public void ReturnBook() { // 영훈 - delete를 하고, book의 borrow_flag를 1로 바꿔준다.
+	public void ReturnBook(int rentalcode) { // 영훈 - delete를 하고, book의 borrow_flag를 1로 바꿔준다.
 //		insert into rental_info(borrow_day,return_day,id_number,book_number) values("2022-05-08","2022-06-08",3,3);
 //		delete from rental_info where rental_info_id =3;
+		try {
+			
+			service.ReturnBook(new RentalinfoDTO(rentalcode));
+//			System.out.println(rental);
+//			service.updateBook(rental);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	System.out.println("========대여 현황 코드로 책 반납==========");
 	}
 }
