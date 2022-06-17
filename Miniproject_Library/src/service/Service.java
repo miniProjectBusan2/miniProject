@@ -1,39 +1,36 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import control.Controllclass;
+import dao.DaoClass;
 import model.BookDTO;
-import util.DBUtil;
+import model.RentalinfoDTO;
 
 public class Service {
 	
-	public static ArrayList<BookDTO> getAllBooks() throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<BookDTO> list = null;
-		try {
-			con = DBUtil.getConnection();
-			pstmt = con.prepareStatement("select * from book");
-			rset = pstmt.executeQuery();
-
-			list = new ArrayList<BookDTO>();
-			while (rset.next()) {
-				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
-						rset.getString(5)));
-			}
-		} finally {
-			DBUtil.close(rset, pstmt, con);
-		}
-		return list;
+	
+	public ArrayList<BookDTO> getAllBooks() throws SQLException  {
+		return DaoClass.getAllBooks();
 	}
 	
+	public ArrayList<BookDTO> borrowBooks() throws SQLException  {
+		return DaoClass.borrowBooks();
+	}
 	
+	public int getborrow(RentalinfoDTO dto) throws SQLException {
+		return DaoClass.getborrow(dto);
+	}
 	
+	public static void ReturnBook(RentalinfoDTO dto) throws SQLException {
+		int result = (DaoClass.getborrow(dto));
+		if(DaoClass.ReturnBook(dto)) {
+			DaoClass.updateBook(result);
+		}
+	}
+	
+	public static boolean updateBook(int rentalcode) throws SQLException {
+		return DaoClass.updateBook(rentalcode);
+	}
 
 }
