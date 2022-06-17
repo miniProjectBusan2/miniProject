@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Exception.NotExistException;
 import model.BookDTO;
 import model.RentalinfoDTO;
 import util.DBUtil;
@@ -59,7 +60,7 @@ public class DaoClass {
 	
 	// 빌릴 수 있는 책만 검색
 	
-	public static ArrayList<BookDTO> borrowBooks() throws SQLException {
+	public static ArrayList<BookDTO> borrowBooks() throws NotExistException, SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -82,7 +83,7 @@ public class DaoClass {
 	
 	// 도서 반납
 	
-	public static boolean ReturnBook(RentalinfoDTO dto) throws SQLException {
+	public static boolean ReturnBook(RentalinfoDTO dto) throws SQLException, NotExistException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "delete from rental_info where rental_info_id = ?";
@@ -91,9 +92,7 @@ public class DaoClass {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, dto.getRental_info_id());
 			int r = pstmt.executeUpdate();
-			System.out.println("aa");
 			if (r != 0) {
-				System.out.println("dss");
 				return true;
 			}
 		} finally {
@@ -131,13 +130,10 @@ public class DaoClass {
 		String sql = "update book set borrow_flag = borrow_flag + 1 where book_number = ?";
 		try {
 			con = DBUtil.getConnection();
-			System.out.println("-1---");
 			pstmt = con.prepareStatement(sql);
-			System.out.println("-2---");
 			pstmt.setInt(1, rentalcode);
 			int r = pstmt.executeUpdate();
 			if (r != 0) {
-				System.out.println("fffff");
 				return true;
 			}
 		} finally {

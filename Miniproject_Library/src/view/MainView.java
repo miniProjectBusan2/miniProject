@@ -18,19 +18,20 @@ public class MainView {
 //		controllclass.AllPerson();
 //		
 //		// 빌려 갈 수 있는 책 검색		
-//		controllclass.BorrowBooks();
+		controllclass.BorrowBooks();
 
+		
 		// 책이름으로 책검색
-		controllclass.SearchBooks();
+//		controllclass.SearchBooks("도헌이책");
 		
 		// 대여 현황 전체 출력
 //		controllclass.BorrowPerson();
 
 		//책 id와 유저 id로 책 빌리기 
-		controllclass.BorrowUseID();
+//		controllclass.BorrowUseID(1,1);
 			
 		// 대여 현황 코드로 책 반납
-		controllclass.ReturnBook(8);
+//		controllclass.ReturnBook(2);
 		//1. rental_info_id를 통해 book_number를 먼저 받아오는 함수
 		//2. book_number를 통해 borrow_flag를 1로 update한다.
 		//3. rental_info_id를 통해 데이터 삭제
