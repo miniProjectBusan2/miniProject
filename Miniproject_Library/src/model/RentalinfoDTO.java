@@ -12,6 +12,23 @@ public class RentalinfoDTO {
 	public int getRental_info_id() {
 		return rental_info_id;
 	}
+	@Override
+	public String toString() {
+		return "RentalinfoDTO [rental_info_id=" + rental_info_id + ", borrow_day=" + borrow_day + ", return_day="
+				+ return_day + ", id_number=" + id_number + ", book_number=" + book_number + "]";
+	}
+	public RentalinfoDTO(int rental_info_id, String borrow_day, String return_day, int id_number, int book_number) {
+		super();
+		this.rental_info_id = rental_info_id;
+		this.borrow_day = borrow_day;
+		this.return_day = return_day;
+		this.id_number = id_number;
+		this.book_number = book_number;
+	}
+	public RentalinfoDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public void setRental_info_id(int rental_info_id) {
 		this.rental_info_id = rental_info_id;
 	}
