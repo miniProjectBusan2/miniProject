@@ -15,13 +15,14 @@ import service.Service;
 import util.DBUtil;
 
 public class Controllclass {
-	private static Controllclass instance = new Controllclass();
-	
-	Service service = new Service();
-	public static Controllclass getInstance() {
-		return instance;
-	}
-	
+
+private static Controllclass instance = new Controllclass();
+private Controllclass() {};
+public static Controllclass getInstance() {
+	return instance;
+}
+	Service service = Service.getInstance();
+
 	public void ShowAllBook() {
 		System.out.println("========모든 책 검색==========");
 		try {
@@ -29,7 +30,6 @@ public class Controllclass {
 				System.out.println(book);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -45,7 +45,6 @@ public class Controllclass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 	
 	public void BorrowBooks() { // 영훈   select * from book where borrow_flag = 1;
@@ -62,6 +61,13 @@ public class Controllclass {
 	
 	public void SearchBooks() { // 용주  select * from book where book_name = '도헌이책';
 	System.out.println("========책 이름으로 책 검색==========");
+		try {
+			for(BookDTO book:service.SearchBooks("도헌이책")) {
+				System.out.println(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -80,11 +86,19 @@ public class Controllclass {
 	
 	}
 	
-	public void BorrowUseID() { // 용주 - borrow_flag가 1이면 그걸 insert( )하고, borrow_flag 0 으로 바꾼다.
+	public void BorrowUseID() { 
+		// 용주 - borrow_flag가 1이면 그걸 insert( )하고, borrow_flag 0 으로 바꾼다.
 		//-- book_number를 받는다 -> rental_info를 생성하는데(여기에 book_number와 id_number를 넣어준다)
 		//insert into rental_info(borrow_day,return_day,id_number,book_number) values("2022-05-10","2022-05-20",2,3);
 		//update book set borrow_flag =1 where book_number=2;
 	System.out.println("========책 id와 유저 id로 책 빌리기 ==========");
+		try {
+			if(service.BorrowUseID(1,1)) {
+				System.out.println("책 빌리기 성공");
+			}else {
+				System.out.println("책 빌리기 실패");
+			}
+		} catch (SQLException e) {e.printStackTrace();}
 	}
 	
 	public void ReturnBook(int rentalcode) { // 영훈 - delete를 하고, book의 borrow_flag를 1로 바꿔준다.
