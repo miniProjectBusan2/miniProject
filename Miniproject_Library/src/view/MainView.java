@@ -1,6 +1,7 @@
 package view;
 
 import control.Controllclass;
+import java.util.Scanner;
 
 
 public class MainView {
@@ -9,7 +10,29 @@ public class MainView {
 // borrow_flag는 0과 1인데 0이면 불가 1이면 가능
 // rental_info의 id_number , book_number 외래키다
 	public static void main(String[] args) {
+		
 		Controllclass controllclass = new Controllclass();
+		Scanner in = new Scanner(System.in);
+		System.out.println("입력하셈");
+		int a = in.nextInt();
+		
+		switch (a) {
+		case 1:
+			System.out.println("========모든 책 검색==========");
+			controllclass.ShowAllBook();
+			break;
+
+		case 2:	
+			System.out.println("2");
+			break;
+		case 3:
+			System.out.println("3");
+			break;
+		default:
+			System.out.println("잘못");
+			break;
+		}
+		
 		// 모든 책 검색
 //		controllclass.ShowAllBook();
 		
@@ -35,5 +58,6 @@ public class MainView {
 		//3. rental_info_id를 통해 데이터 삭제
 		//rental_info_id를 통해 삭제하고, book_number를 받아온다
 		//그 받아온 book_number를 통해 borrow_flag를 1로 update한다.
+
 	}
 }
