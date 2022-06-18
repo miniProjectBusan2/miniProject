@@ -91,9 +91,7 @@ public class DaoClass {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, dto.getRental_info_id());
 			int r = pstmt.executeUpdate();
-			System.out.println("aa");
 			if (r != 0) {
-				System.out.println("dss");
 				return true;
 			}
 		} finally {
@@ -137,7 +135,6 @@ public class DaoClass {
 			pstmt.setInt(1, rentalcode);
 			int r = pstmt.executeUpdate();
 			if (r != 0) {
-				System.out.println("fffff");
 				return true;
 			}
 		} finally {
