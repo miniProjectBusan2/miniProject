@@ -42,8 +42,14 @@ public class Service {
 	
 	
 	public int getborrow(RentalinfoDTO dto) throws SQLException {
+<<<<<<< HEAD
 		return AllDAO.getborrow(dto);
 	}
+=======
+		return DaoClass.getborrow(dto);
+	}
+
+>>>>>>> branch 'hun' of https://github.com/miniProjectBusan2/miniProject.git
 	public static ArrayList<PersonDTO> getAllPerson() throws SQLException{
 		return AllDAO.getAllPerson();
 	}
