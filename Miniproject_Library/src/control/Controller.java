@@ -113,7 +113,7 @@ public static Controller getInstance() {
 	System.out.println("유저 ID 입력 : ");
 	userId=service.getInt();
 		try {
-			service.borrowUseID(bookId,userId);
+			service.borrowUseID(userId,bookId);
 			System.out.println("도서 대여가 완료되었습니다.");
 			}
 		 	catch (SQLException e) {e.printStackTrace();}
@@ -130,7 +130,6 @@ public static Controller getInstance() {
 		System.out.println("rental_info_id 입력 : ");
 		int rentalcode=service.getInt();
 		try {
-			
 			service.returnBook(new RentalinfoDTO(rentalcode));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

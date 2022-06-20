@@ -145,29 +145,57 @@ public class AllDAO {
 	}
 	////////////////////////밑으로 용주 Dao /////////////////////////////
 	///////////////////////////// 플래그 확인 함수 //////////////////////////
-	public static boolean flagReturn(int bookId)throws SQLException {
+	public static BookDTO flagReturn(int bookId)throws SQLException, NotExistException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<BookDTO> list = null;
+		BookDTO dto = null;
+//		ArrayList<BookDTO> list = null;
 		try {
 			con = DBUtil.getConnection();
-			pstmt = con.prepareStatement("select * from book where book_number=? and borrow_flag > 0");
-			pstmt.setString(1, String.valueOf(bookId));
+			pstmt = con.prepareStatement("select borrow_flag from book where book_number=?");
+			pstmt.setInt(1, bookId);
 			rset = pstmt.executeQuery();
-
-			list = new ArrayList<BookDTO>();
-			while (rset.next()) {
-				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
-						rset.getString(5)));
+			
+			if(rset.next()) {
+				dto = new BookDTO(0, null, null, rset.getInt("borrow_flag"), null);
 			}
+			
+//			list = new ArrayList<BookDTO>();
+//			while (rset.next()) {
+//				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
+//						rset.getString(5)));
+//			}
+			return dto;
 		} finally {
 			DBUtil.close(rset, pstmt, con);
 		}
-		if(list.size()>0) {
-			return true;
-		}else {
-			return false;			
+	}
+	
+	public static PersonDTO personReturn(int userId)throws SQLException, NotExistException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		PersonDTO dto = null;
+//		ArrayList<BookDTO> list = null;
+		try {
+			con = DBUtil.getConnection();
+			pstmt = con.prepareStatement("select phone_num from person where id_number=?");
+			pstmt.setInt(1, userId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				dto = new PersonDTO(0, rset.getString("phone_num"), "");
+			}
+			
+//			list = new ArrayList<BookDTO>();
+//			while (rset.next()) {
+//				list.add(new BookDTO(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getInt(4),
+//						rset.getString(5)));
+//			}
+			return dto;
+		} finally {
+			DBUtil.close(rset, pstmt, con);
 		}
 	}
 	////////////////////////////플래그 변경 함수////////////////////////////
@@ -190,13 +218,13 @@ public class AllDAO {
 	}
 
 	/////////////////////////////rental_info 빌려주기////////////////////
-	public static boolean borrowBooks(int userId,int bookId) throws SQLException, NotExistException {
+	public static boolean borrowBooks(int userId,int bookId) throws SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		try {
 			con = DBUtil.getConnection();
-			pstmt = con.prepareStatement("insert into rental_info(borrow_day,return_day,id_number,book_number) values('2022-05-10','2022-05-20',?,?)");
+			pstmt = con.prepareStatement("insert into rental_info(borrow_day,return_day,id_number,book_number) values(curdate(),adddate(curdate(), 10),?,?)");
 			pstmt.setInt(1, userId);
 			pstmt.setInt(2, bookId);
 		 	int result = pstmt.executeUpdate();

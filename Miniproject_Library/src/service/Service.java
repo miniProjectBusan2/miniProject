@@ -89,14 +89,28 @@ public class Service {
 	public static boolean borrowUseID(int userId,int bookId) throws SQLException, NotExistException{
 		//-- book_number를 받는다 -> rental_info를 생성하는데(여기에 book_number와 id_number를 넣어준다)
 		//insert into rental_info(borrow_day,return_day,id_number,book_number) values("2022-05-10","2022-05-20",2,3);
-		if(AllDAO.flagReturn(bookId)) {
-			AllDAO.borrowBooks(userId,bookId);
-			AllDAO.changeFlag(bookId);
-			return true;
-		}else {
-			throw new NotExistException("정보가 맞지 않거나 도서 수량이 없습니다.");
+		if(AllDAO.flagReturn(bookId) != null) {
+			if(AllDAO.personReturn(userId) != null) {
+				if(AllDAO.flagReturn(bookId).getBorrow_flag() > 0) {
+					AllDAO.borrowBooks(userId, bookId);
+					AllDAO.changeFlag(bookId);
+					return true;
+				} 
+				else {
+					throw new NotExistException("도서 수량이 없습니다.");
+				}
+			} else {
+				throw new NotExistException("유저 정보가 맞지 않습니다.");
+			}
+		}else{
+			throw new NotExistException("도서 정보가 맞지 않습니다.");
 		}
 	}
+	
+	// insert
+	
+	
+	
 
 	//////////////////////////////////////////////////////////////////
 
